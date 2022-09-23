@@ -8,6 +8,7 @@ Dinh = []
 MaTranKe = []
 TapDinhKe = []
 pos_yasuo=[]
+vt=0
 
 pygame.init()
 screen=pygame.display.set_mode((1000,600))
@@ -17,11 +18,17 @@ clock=pygame.time.Clock()
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 
+AnhNen=pygame.image.load('hinh-nen-den.jpg')
+AnhNen=pygame.transform.scale(AnhNen,(1000,600))
+
 yasuo=pygame.image.load('yasuo.png')
 yasuo=pygame.transform.scale(yasuo,(50,50))
 pos_yasuo_x=100
 pos_yasuo_y=100
 step=50
+
+pos_tick_x=10000
+pos_tick_y=10000
 
 MuiTen=pygame.image.load('MuiTen.png')
 MuiTen=pygame.transform.scale(MuiTen,(25,25))
@@ -143,7 +150,7 @@ Goal=111
 Start=2
 ViTriHienTai_x=100
 ViTriHienTai_y=100
-def BFS():
+def BFSThongMinh():
     global Goal,Start
     KhoangCach=[]
     ToaDo=[]
@@ -191,25 +198,61 @@ def BFS():
             HangDoi.append(DinhKe)
     for i in range(0,112):
         Dinh[i][1]=False
+def BFS():
+    global Goal,Start
+    print("Start = ",Start,"Goal = ",Goal)
+    Dinh[Start][1]=True
+    # print(Dinh[0][0])
+    HangDoi.append(Dinh[Start][0])
+    print(Dinh[Start][0])
+    print(HangDoi)
+    while(len(HangDoi)!=0):
+        DinhCanXet=HangDoi.pop(0)
+        LayDinhKe(DinhCanXet)
+        print(TapDinhKe,"Dinh can xet: ",DinhCanXet)
+        while(len(TapDinhKe)!=0):
+            # print("Tập đỉnh kề: ",TapDinhKe)
+            DinhKe=TapDinhKe.pop(0)
+            Dinh[DinhKe][1]=True
+            LayToaDo(DinhKe)
+            if(DinhKe==Goal):
+                TapDinhKe.clear()
+                for i in range (0,len(pos_yasuo)):
+                    print(LayDinh(pos_yasuo[i][0],pos_yasuo[i][1]))
+                print(pos_yasuo)
+                for i in range(0,112):
+                    Dinh[i][1]=False
+                HangDoi.clear()
+                return
+            HangDoi.append(DinhKe)
+                # print("Tọa độ: ",ToaDo[0],"  ",ToaDo[1])
+            # print(DinhKe)
+            # DinhKe=TapDinhKe.pop(0)
+            # print("Đỉnh kề: ",DinhKe)
+            # print("Tập tọa đô đường đi: ",pos_yasuo)
+            # print("Vị Trí yasuo: ",pos_yasuo_x,"  ",pos_yasuo_y)
+            # print("Hảng đợi: ",HangDoi)
+
 
 
 
 TaoMaTran()
 TaoDinh()
-# BFS
+# BFSThongMinh
 running=True
 while running:
     clock.tick(600)
-    screen.fill((0,204,136))
+    screen.blit(AnhNen,(0,0))
+    
 
     mouse_x, mouse_y=pygame.mouse.get_pos()
     # print(mouse_pos)
     #Ve Duong line
     pygame.draw.rect(screen, WHITE, (100,100,700,400))
     for i in range(100,501,50):
-        pygame.draw.line(screen, BLACK, (100,i),(800,i),width=5)    
+        pygame.draw.line(screen, (192,202,230), (100,i),(800,i),width=5)    
     for i in range(100,801,50):
-        pygame.draw.line(screen, BLACK, (i,100),(i,500),width=5)   
+        pygame.draw.line(screen, (192,202,230), (i,100),(i,500),width=5)   
 
     #Chuong ngai vat
     screen.blit(Bom,(pos_Bom_1[0],pos_Bom_1[1]))
@@ -238,11 +281,13 @@ while running:
     pygame.draw.rect(screen, 'gray', (850,125,125,50))
     screen.blit(text,(855,125))
     
-
+    for i in range(0,vt):
+        pygame.draw.rect(screen, 'red', (pos_yasuo[vt][0],pos_yasuo[vt][1],50,50))
 
     # DiChuyen()
-    if (pos_yasuo_x==ViTriHienTai_x and pos_yasuo_y==ViTriHienTai_y):
-        vt=0
+    # if (pos_yasuo_x==ViTriHienTai_x and pos_yasuo_y==ViTriHienTai_y):
+    #     vt=0
+    
     if(vt < len(pos_yasuo)):
         if (pos_yasuo_x < pos_yasuo[vt][0]):
             pos_yasuo_x = pos_yasuo_x + 1
@@ -254,6 +299,8 @@ while running:
             pos_yasuo_y = pos_yasuo_y - 1
         if(pos_yasuo_x==pos_yasuo[vt][0] and pos_yasuo_y==pos_yasuo[vt][1]):
             # pygame.draw.rect(screen, 'red', (pos_yasuo[vt][0],pos_yasuo[vt][1],50,50))
+            pos_tick_x=pos_yasuo[vt][0]
+            pos_tick_y=pos_yasuo[vt][1]
             vt=vt+1
         if(vt==len(pos_yasuo)):
             pos_yasuo.clear()
@@ -370,13 +417,18 @@ while running:
                 x,y=LayToaDoReturn(i)
                 if((mouse_x>x and mouse_x<x+50) and (mouse_y > y and mouse_y < y+50)):
                     if mouse_presses[0]:
+                        vt=0
                         pos_MuiTen_x=x
                         pos_MuiTen_y=y
                         ViTriHienTai_x=pos_yasuo_x
                         ViTriHienTai_y=pos_yasuo_y
                         Goal=LayDinh(x,y)
-                        Start=LayDinh(pos_yasuo_x,pos_yasuo_y)
+                        Start=LayDinh(ViTriHienTai_x,ViTriHienTai_y)
+                        starTime=time.time()
                         BFS()
+                        endTime=time.time()
+                        print("endTime = ",endTime,"starTime = ",starTime)
+                        print("endTime-starTime = ",endTime-starTime)
                         break
     pygame.display.flip()
 pygame.quit()

@@ -29,6 +29,7 @@ step=50
 
 pos_tick_x=10000
 pos_tick_y=10000
+ListTick=[]
 
 MuiTen=pygame.image.load('MuiTen.png')
 MuiTen=pygame.transform.scale(MuiTen,(25,25))
@@ -241,8 +242,9 @@ TaoDinh()
 # BFSThongMinh
 running=True
 while running:
-    clock.tick(600)
-    screen.blit(AnhNen,(0,0))
+    clock.tick(200)
+    # screen.blit(AnhNen,(0,0))
+    screen.fill('white')
     
 
     mouse_x, mouse_y=pygame.mouse.get_pos()
@@ -250,9 +252,13 @@ while running:
     #Ve Duong line
     pygame.draw.rect(screen, WHITE, (100,100,700,400))
     for i in range(100,501,50):
-        pygame.draw.line(screen, (192,202,230), (100,i),(800,i),width=5)    
+        if(i==100 or i==500):
+            pygame.draw.line(screen, BLACK, (100,i),(800,i),width=5) 
+        pygame.draw.line(screen, BLACK, (100,i),(800,i),width=2)    
     for i in range(100,801,50):
-        pygame.draw.line(screen, (192,202,230), (i,100),(i,500),width=5)   
+        if(i==100 or i==800):
+            pygame.draw.line(screen, BLACK, (i,100),(i,500),width=5) 
+        pygame.draw.line(screen, BLACK, (i,100),(i,500),width=1)   
 
     #Chuong ngai vat
     screen.blit(Bom,(pos_Bom_1[0],pos_Bom_1[1]))
@@ -281,13 +287,18 @@ while running:
     pygame.draw.rect(screen, 'gray', (850,125,125,50))
     screen.blit(text,(855,125))
     
-    for i in range(0,vt):
-        pygame.draw.rect(screen, 'red', (pos_yasuo[vt][0],pos_yasuo[vt][1],50,50))
+
+    if(ListTick!=0):
+        # for i in range(len(ListTick)-1):
+
+        for i in range(len(ListTick)-1):
+            pygame.draw.circle(screen, 'red', [ListTick[i][0]+25,ListTick[i][1]+25],10)
+            pygame.draw.line(screen, BLACK, (ListTick[i][0]+25,ListTick[i][1]+25),(ListTick[i+1][0]+25,ListTick[i+1][1]+25),width=2)   
+
 
     # DiChuyen()
     # if (pos_yasuo_x==ViTriHienTai_x and pos_yasuo_y==ViTriHienTai_y):
     #     vt=0
-    
     if(vt < len(pos_yasuo)):
         if (pos_yasuo_x < pos_yasuo[vt][0]):
             pos_yasuo_x = pos_yasuo_x + 1
@@ -298,9 +309,10 @@ while running:
         if(pos_yasuo_y > pos_yasuo[vt][1]):
             pos_yasuo_y = pos_yasuo_y - 1
         if(pos_yasuo_x==pos_yasuo[vt][0] and pos_yasuo_y==pos_yasuo[vt][1]):
-            # pygame.draw.rect(screen, 'red', (pos_yasuo[vt][0],pos_yasuo[vt][1],50,50))
-            pos_tick_x=pos_yasuo[vt][0]
-            pos_tick_y=pos_yasuo[vt][1]
+            new=[]
+            new.append(pos_yasuo_x)
+            new.append(pos_yasuo_y)
+            ListTick.append(new)
             vt=vt+1
         if(vt==len(pos_yasuo)):
             pos_yasuo.clear()
@@ -418,6 +430,7 @@ while running:
                 if((mouse_x>x and mouse_x<x+50) and (mouse_y > y and mouse_y < y+50)):
                     if mouse_presses[0]:
                         vt=0
+                        ListTick.clear()
                         pos_MuiTen_x=x
                         pos_MuiTen_y=y
                         ViTriHienTai_x=pos_yasuo_x
@@ -426,6 +439,7 @@ while running:
                         Start=LayDinh(ViTriHienTai_x,ViTriHienTai_y)
                         starTime=time.time()
                         BFS()
+                        # BFSThongMinh()
                         endTime=time.time()
                         print("endTime = ",endTime,"starTime = ",starTime)
                         print("endTime-starTime = ",endTime-starTime)

@@ -21,6 +21,12 @@ BLACK=(0,0,0)
 AnhNen=pygame.image.load('hinh-nen-den.jpg')
 AnhNen=pygame.transform.scale(AnhNen,(1000,600))
 
+BackgroundYS=pygame.image.load('backgroundYS.jpg')
+BackgroundYS=pygame.transform.scale(BackgroundYS,(700,400))
+
+Back=pygame.image.load('back.png')
+Back=pygame.transform.scale(Back,(30,30))
+
 yasuo=pygame.image.load('yasuo.png')
 yasuo=pygame.transform.scale(yasuo,(50,50))
 pos_yasuo_x=100
@@ -243,22 +249,23 @@ TaoDinh()
 running=True
 while running:
     clock.tick(200)
-    # screen.blit(AnhNen,(0,0))
-    screen.fill('white')
+    screen.blit(AnhNen,(0,0))
+    # screen.fill('white')
     
 
     mouse_x, mouse_y=pygame.mouse.get_pos()
     # print(mouse_pos)
     #Ve Duong line
-    pygame.draw.rect(screen, WHITE, (100,100,700,400))
+    screen.blit(BackgroundYS,(100,100))
+    # pygame.draw.rect(screen, (148,170,214), (100,100,700,400))
     for i in range(100,501,50):
         if(i==100 or i==500):
-            pygame.draw.line(screen, BLACK, (100,i),(800,i),width=5) 
-        pygame.draw.line(screen, BLACK, (100,i),(800,i),width=2)    
+            pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=5) 
+        pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=2)    
     for i in range(100,801,50):
         if(i==100 or i==800):
-            pygame.draw.line(screen, BLACK, (i,100),(i,500),width=5) 
-        pygame.draw.line(screen, BLACK, (i,100),(i,500),width=1)   
+            pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=5) 
+        pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=1)   
 
     #Chuong ngai vat
     screen.blit(Bom,(pos_Bom_1[0],pos_Bom_1[1]))
@@ -284,6 +291,9 @@ while running:
         pos_MuiTen_x=2000
         pos_MuiTen_y=2000
 
+    screen.blit(Back,(10,10))
+
+
     pygame.draw.rect(screen, 'gray', (850,125,125,50))
     screen.blit(text,(855,125))
     
@@ -292,8 +302,8 @@ while running:
         # for i in range(len(ListTick)-1):
 
         for i in range(len(ListTick)-1):
-            pygame.draw.circle(screen, 'red', [ListTick[i][0]+25,ListTick[i][1]+25],10)
-            pygame.draw.line(screen, BLACK, (ListTick[i][0]+25,ListTick[i][1]+25),(ListTick[i+1][0]+25,ListTick[i+1][1]+25),width=2)   
+            pygame.draw.circle(screen, 'green', [ListTick[i][0]+25,ListTick[i][1]+25],10)
+            pygame.draw.line(screen, 'white', (ListTick[i][0]+25,ListTick[i][1]+25),(ListTick[i+1][0]+25,ListTick[i+1][1]+25),width=2)   
 
 
     # DiChuyen()
@@ -438,8 +448,8 @@ while running:
                         Goal=LayDinh(x,y)
                         Start=LayDinh(ViTriHienTai_x,ViTriHienTai_y)
                         starTime=time.time()
-                        BFS()
-                        # BFSThongMinh()
+                        # BFS() 
+                        BFSThongMinh()
                         endTime=time.time()
                         print("endTime = ",endTime,"starTime = ",starTime)
                         print("endTime-starTime = ",endTime-starTime)

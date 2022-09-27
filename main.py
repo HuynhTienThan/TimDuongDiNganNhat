@@ -1,14 +1,24 @@
-
 import math
 import random
 import pygame
 import time
+
+LuaChon="BatDau"
+
 HangDoi = []
 Dinh = []
 MaTranKe = []
 TapDinhKe = []
 pos_yasuo=[]
 vt=0
+
+HangDoiMeCung = []
+DinhMeCung = []
+MaTranKeMeCung = []
+TapDinhKeMeCung = []
+pos_irelia_MeCung=[]
+vtMeCung=0
+
 
 pygame.init()
 screen=pygame.display.set_mode((1000,600))
@@ -18,7 +28,7 @@ clock=pygame.time.Clock()
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 
-AnhNen=pygame.image.load('hinh-nen-den.jpg')
+AnhNen=pygame.image.load('BackgroundSelection.PNG')
 AnhNen=pygame.transform.scale(AnhNen,(1000,600))
 
 BackgroundYS=pygame.image.load('backgroundYS.jpg')
@@ -248,96 +258,128 @@ TaoDinh()
 # BFSThongMinh
 running=True
 while running:
-    clock.tick(200)
-    screen.blit(AnhNen,(0,0))
+    clock.tick(600)
     # screen.fill('white')
     
 
     mouse_x, mouse_y=pygame.mouse.get_pos()
-    # print(mouse_pos)
-    #Ve Duong line
-    screen.blit(BackgroundYS,(100,100))
-    # pygame.draw.rect(screen, (148,170,214), (100,100,700,400))
-    for i in range(100,501,50):
-        if(i==100 or i==500):
-            pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=5) 
-        pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=2)    
-    for i in range(100,801,50):
-        if(i==100 or i==800):
-            pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=5) 
-        pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=1)   
+    if(LuaChon=="NganNhat"):
+        #Ve Duong line
+        screen.blit(BackgroundYS,(100,100))
+        # pygame.draw.rect(screen, (148,170,214), (100,100,700,400))
+        for i in range(100,501,50):
+            if(i==100 or i==500):
+                pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=5) 
+            pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=2)    
+        for i in range(100,801,50):
+            if(i==100 or i==800):
+                pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=5) 
+            pygame.draw.line(screen, (16,54,103), (i,100),(i,500),width=1)   
 
-    #Chuong ngai vat
-    screen.blit(Bom,(pos_Bom_1[0],pos_Bom_1[1]))
-    screen.blit(Bom,(pos_Bom_2[0],pos_Bom_2[1]))
-    screen.blit(Bom,(pos_Bom_3[0],pos_Bom_3[1]))
-    screen.blit(Bom,(pos_Bom_4[0],pos_Bom_4[1]))
-    screen.blit(Bom,(pos_Bom_5[0],pos_Bom_5[1]))
-    screen.blit(Bom,(pos_Bom_6[0],pos_Bom_6[1]))
-    screen.blit(Bom,(pos_Bom_7[0],pos_Bom_7[1]))
-    screen.blit(Bom,(pos_Bom_8[0],pos_Bom_8[1]))
-    screen.blit(Bom,(pos_Bom_9[0],pos_Bom_9[1]))
-    screen.blit(Bom,(pos_Bom_10[0],pos_Bom_10[1]))
-    screen.blit(Bom,(pos_Bom_11[0],pos_Bom_11[1]))
-    screen.blit(Bom,(pos_Bom_12[0],pos_Bom_12[1]))
-    screen.blit(Bom,(pos_Bom_13[0],pos_Bom_13[1]))
-    screen.blit(Bom,(pos_Bom_14[0],pos_Bom_14[1]))
+        #Chuong ngai vat
+        screen.blit(Bom,(pos_Bom_1[0],pos_Bom_1[1]))
+        screen.blit(Bom,(pos_Bom_2[0],pos_Bom_2[1]))
+        screen.blit(Bom,(pos_Bom_3[0],pos_Bom_3[1]))
+        screen.blit(Bom,(pos_Bom_4[0],pos_Bom_4[1]))
+        screen.blit(Bom,(pos_Bom_5[0],pos_Bom_5[1]))
+        screen.blit(Bom,(pos_Bom_6[0],pos_Bom_6[1]))
+        screen.blit(Bom,(pos_Bom_7[0],pos_Bom_7[1]))
+        screen.blit(Bom,(pos_Bom_8[0],pos_Bom_8[1]))
+        screen.blit(Bom,(pos_Bom_9[0],pos_Bom_9[1]))
+        screen.blit(Bom,(pos_Bom_10[0],pos_Bom_10[1]))
+        screen.blit(Bom,(pos_Bom_11[0],pos_Bom_11[1]))
+        screen.blit(Bom,(pos_Bom_12[0],pos_Bom_12[1]))
+        screen.blit(Bom,(pos_Bom_13[0],pos_Bom_13[1]))
+        screen.blit(Bom,(pos_Bom_14[0],pos_Bom_14[1]))
 
-    #Ve yasuo
-    screen.blit(yasuo,(pos_yasuo_x,pos_yasuo_y))
-    #Ve Mui Ten
-    screen.blit(MuiTen,(pos_MuiTen_x+12.5,pos_MuiTen_y+12.5))
-    if (pos_MuiTen_x==pos_yasuo_x and pos_MuiTen_y==pos_yasuo_y):
-        pos_MuiTen_x=2000
-        pos_MuiTen_y=2000
+        #Ve yasuo
+        screen.blit(yasuo,(pos_yasuo_x,pos_yasuo_y))
+        #Ve Mui Ten
+        screen.blit(MuiTen,(pos_MuiTen_x+12.5,pos_MuiTen_y+12.5))
+        if (pos_MuiTen_x==pos_yasuo_x and pos_MuiTen_y==pos_yasuo_y):
+            pos_MuiTen_x=2000
+            pos_MuiTen_y=2000
 
-    screen.blit(Back,(10,10))
-
-
-    pygame.draw.rect(screen, 'gray', (850,125,125,50))
-    screen.blit(text,(855,125))
-    
-
-    if(ListTick!=0):
-        # for i in range(len(ListTick)-1):
-
-        for i in range(len(ListTick)-1):
-            pygame.draw.circle(screen, 'green', [ListTick[i][0]+25,ListTick[i][1]+25],10)
-            pygame.draw.line(screen, 'white', (ListTick[i][0]+25,ListTick[i][1]+25),(ListTick[i+1][0]+25,ListTick[i+1][1]+25),width=2)   
+        screen.blit(Back,(10,10))
 
 
-    # DiChuyen()
-    # if (pos_yasuo_x==ViTriHienTai_x and pos_yasuo_y==ViTriHienTai_y):
-    #     vt=0
-    if(vt < len(pos_yasuo)):
-        if (pos_yasuo_x < pos_yasuo[vt][0]):
-            pos_yasuo_x = pos_yasuo_x + 1
-        if (pos_yasuo_x > pos_yasuo[vt][0]):
-            pos_yasuo_x = pos_yasuo_x - 1
-        if(pos_yasuo_y < pos_yasuo[vt][1]):
-            pos_yasuo_y = pos_yasuo_y + 1
-        if(pos_yasuo_y > pos_yasuo[vt][1]):
-            pos_yasuo_y = pos_yasuo_y - 1
-        if(pos_yasuo_x==pos_yasuo[vt][0] and pos_yasuo_y==pos_yasuo[vt][1]):
-            new=[]
-            new.append(pos_yasuo_x)
-            new.append(pos_yasuo_y)
-            ListTick.append(new)
-            vt=vt+1
-        if(vt==len(pos_yasuo)):
-            pos_yasuo.clear()
+        pygame.draw.rect(screen, 'gray', (850,125,125,50))
+        screen.blit(text,(855,125))
+        
+
+        if(ListTick!=0):
+            # for i in range(len(ListTick)-1):
+
+            for i in range(len(ListTick)-1):
+                pygame.draw.circle(screen, 'green', [ListTick[i][0]+25,ListTick[i][1]+25],10)
+                pygame.draw.line(screen, 'white', (ListTick[i][0]+25,ListTick[i][1]+25),(ListTick[i+1][0]+25,ListTick[i+1][1]+25),width=2)   
 
 
+        # DiChuyen()
+        # if (pos_yasuo_x==ViTriHienTai_x and pos_yasuo_y==ViTriHienTai_y):
+        #     vt=0
+        if(vt < len(pos_yasuo)):
+            if (pos_yasuo_x < pos_yasuo[vt][0]):
+                pos_yasuo_x = pos_yasuo_x + 1
+            if (pos_yasuo_x > pos_yasuo[vt][0]):
+                pos_yasuo_x = pos_yasuo_x - 1
+            if(pos_yasuo_y < pos_yasuo[vt][1]):
+                pos_yasuo_y = pos_yasuo_y + 1
+            if(pos_yasuo_y > pos_yasuo[vt][1]):
+                pos_yasuo_y = pos_yasuo_y - 1
+            if(pos_yasuo_x==pos_yasuo[vt][0] and pos_yasuo_y==pos_yasuo[vt][1]):
+                new=[]
+                new.append(pos_yasuo_x)
+                new.append(pos_yasuo_y)
+                ListTick.append(new)
+                vt=vt+1
+            if(vt==len(pos_yasuo)):
+                pos_yasuo.clear()
+    elif LuaChon=="MeCung":
+        screen.fill('white')
+        pygame.draw.rect(screen, (148,170,214), (100,50,600,460))
+        for i in range(50,511,20):
+            if(i==50 or i==510):
+                pygame.draw.line(screen, (16,54,103), (100,i),(700,i),width=5) 
+            if(i==70):
+                pygame.draw.line(screen, (16,54,103), (140,i),(220,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (280,i),(300,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (320,i),(380,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (400,i),(440,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (460,i),(500,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (520,i),(540,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (560,i),(620,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (640,i),(680,i),width=2)  
+            if(i==90):
+                pygame.draw.line(screen, (16,54,103), (200,i),(220,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (260,i),(280,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (300,i),(320,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (380,i),(420,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (440,i),(480,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (500,i),(560,i),width=2)    
+                pygame.draw.line(screen, (16,54,103), (580,i),(680,i),width=2)    
 
-    # key_input = pygame.key.get_pressed()   nhấn giữ
-    # if key_input[pygame.K_LEFT]:
-    #     pos_yasuo_x -= step
-    # if key_input[pygame.K_UP]:
-    #     pos_yasuo_y -= step
-    # if key_input[pygame.K_RIGHT]:
-    #     pos_yasuo_x += step
-    # if key_input[pygame.K_DOWN]:
-    #     pos_yasuo_y += step
+              
+
+            # pygame.draw.line(screen, (16,54,103), (100,i),(700,i),width=2)    
+        # for i in range(100,701,20):
+        #     if(i==100 or i==700):
+        #         pygame.draw.line(screen, (16,54,103), (i,50),(i,510),width=5) 
+        #     pygame.draw.line(screen, (16,54,103), (i,50),(i,510),width=1)   
+
+    else:
+        screen.blit(AnhNen,(0,0))
+
+
+        # key_input = pygame.key.get_pressed()   nhấn giữ
+        # if key_input[pygame.K_LEFT]:
+        #     pos_yasuo_x -= step
+        # if key_input[pygame.K_UP]:
+        #     pos_yasuo_y -= step
+        # if key_input[pygame.K_RIGHT]:
+        #     pos_yasuo_x += step
+        # if key_input[pygame.K_DOWN]:
+        #     pos_yasuo_y += step
     
 
 
@@ -366,93 +408,109 @@ while running:
                     break
                 else:
                     pos_yasuo_y += step
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            mouse_presses = pygame.mouse.get_pressed()
-            if((mouse_x >= 850 and mouse_x <= 975) and (mouse_y >= 125 and mouse_y <=175)):
-                if mouse_presses[0]:
-                    Diem_xuat_phat_ngau_nhien=random.randint(0,111)
-                    Toa_do_Diem_xuat_phat_ngau_nhien=LayToaDoReturn(Diem_xuat_phat_ngau_nhien)
-                    pos_yasuo_x,pos_yasuo_y=Toa_do_Diem_xuat_phat_ngau_nhien
-                    
-                    TaoMaTran()
-                    DinhBom1=random.randint(0,111)
-                    DinhBom2=random.randint(0,111)
-                    DinhBom3=random.randint(0,111)
-                    DinhBom4=random.randint(0,111)
-                    DinhBom5=random.randint(0,111)
-                    DinhBom6=random.randint(0,111)
-                    DinhBom7=random.randint(0,111)
-                    DinhBom8=random.randint(0,111)
-                    DinhBom9=random.randint(0,111)
-                    DinhBom10=random.randint(0,111)
-                    DinhBom11=random.randint(0,111)
-                    DinhBom12=random.randint(0,111)
-                    DinhBom13=random.randint(0,111)
-                    DinhBom14=random.randint(0,111)
-
-                    pos_Bom_1=LayToaDoReturn(DinhBom1)
-                    pos_Bom_2=LayToaDoReturn(DinhBom2)
-                    pos_Bom_3=LayToaDoReturn(DinhBom3)
-                    pos_Bom_4=LayToaDoReturn(DinhBom4)
-                    pos_Bom_5=LayToaDoReturn(DinhBom5)
-                    pos_Bom_6=LayToaDoReturn(DinhBom6)
-                    pos_Bom_7=LayToaDoReturn(DinhBom7)
-                    pos_Bom_8=LayToaDoReturn(DinhBom8)
-                    pos_Bom_9=LayToaDoReturn(DinhBom9)
-                    pos_Bom_10=LayToaDoReturn(DinhBom10)
-                    pos_Bom_11=LayToaDoReturn(DinhBom11)
-                    pos_Bom_12=LayToaDoReturn(DinhBom12)
-                    pos_Bom_13=LayToaDoReturn(DinhBom13)
-                    pos_Bom_14=LayToaDoReturn(DinhBom14)
-
-                    for i in range(0,112):
-                        MaTranKe[DinhBom1][i]=0
-                        MaTranKe[DinhBom2][i]=0
-                        MaTranKe[DinhBom3][i]=0
-                        MaTranKe[DinhBom4][i]=0
-                        MaTranKe[DinhBom5][i]=0
-                        MaTranKe[DinhBom6][i]=0
-                        MaTranKe[DinhBom7][i]=0
-                        MaTranKe[DinhBom8][i]=0
-                        MaTranKe[DinhBom9][i]=0
-                        MaTranKe[DinhBom10][i]=0
-                        MaTranKe[DinhBom11][i]=0
-                        MaTranKe[DinhBom12][i]=0
-                        MaTranKe[DinhBom13][i]=0
-                        MaTranKe[DinhBom14][i]=0
-                    
-                        MaTranKe[i][DinhBom1]=0
-                        MaTranKe[i][DinhBom2]=0
-                        MaTranKe[i][DinhBom3]=0
-                        MaTranKe[i][DinhBom4]=0
-                        MaTranKe[i][DinhBom5]=0
-                        MaTranKe[i][DinhBom6]=0
-                        MaTranKe[i][DinhBom7]=0
-                        MaTranKe[i][DinhBom8]=0
-                        MaTranKe[i][DinhBom9]=0
-                        MaTranKe[i][DinhBom10]=0
-                        MaTranKe[i][DinhBom11]=0
-                        MaTranKe[i][DinhBom12]=0
-                        MaTranKe[i][DinhBom13]=0
-                        MaTranKe[i][DinhBom14]=0
-            for i in range(0,112):
-                x,y=LayToaDoReturn(i)
-                if((mouse_x>x and mouse_x<x+50) and (mouse_y > y and mouse_y < y+50)):
+        if(LuaChon=="NganNhat"):
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                mouse_presses = pygame.mouse.get_pressed()
+                if((mouse_x >= 10 and mouse_x <= 30) and (mouse_y >= 10 and mouse_y <=30)):
                     if mouse_presses[0]:
-                        vt=0
-                        ListTick.clear()
-                        pos_MuiTen_x=x
-                        pos_MuiTen_y=y
-                        ViTriHienTai_x=pos_yasuo_x
-                        ViTriHienTai_y=pos_yasuo_y
-                        Goal=LayDinh(x,y)
-                        Start=LayDinh(ViTriHienTai_x,ViTriHienTai_y)
-                        starTime=time.time()
-                        # BFS() 
-                        BFSThongMinh()
-                        endTime=time.time()
-                        print("endTime = ",endTime,"starTime = ",starTime)
-                        print("endTime-starTime = ",endTime-starTime)
-                        break
+                        LuaChon="BatDau"
+                if((mouse_x >= 850 and mouse_x <= 975) and (mouse_y >= 125 and mouse_y <=175)):
+                    if mouse_presses[0]:
+                        Diem_xuat_phat_ngau_nhien=random.randint(0,111)
+                        Toa_do_Diem_xuat_phat_ngau_nhien=LayToaDoReturn(Diem_xuat_phat_ngau_nhien)
+                        pos_yasuo_x,pos_yasuo_y=Toa_do_Diem_xuat_phat_ngau_nhien
+                        
+                        TaoMaTran()
+                        DinhBom1=random.randint(0,111)
+                        DinhBom2=random.randint(0,111)
+                        DinhBom3=random.randint(0,111)
+                        DinhBom4=random.randint(0,111)
+                        DinhBom5=random.randint(0,111)
+                        DinhBom6=random.randint(0,111)
+                        DinhBom7=random.randint(0,111)
+                        DinhBom8=random.randint(0,111)
+                        DinhBom9=random.randint(0,111)
+                        DinhBom10=random.randint(0,111)
+                        DinhBom11=random.randint(0,111)
+                        DinhBom12=random.randint(0,111)
+                        DinhBom13=random.randint(0,111)
+                        DinhBom14=random.randint(0,111)
+
+                        pos_Bom_1=LayToaDoReturn(DinhBom1)
+                        pos_Bom_2=LayToaDoReturn(DinhBom2)
+                        pos_Bom_3=LayToaDoReturn(DinhBom3)
+                        pos_Bom_4=LayToaDoReturn(DinhBom4)
+                        pos_Bom_5=LayToaDoReturn(DinhBom5)
+                        pos_Bom_6=LayToaDoReturn(DinhBom6)
+                        pos_Bom_7=LayToaDoReturn(DinhBom7)
+                        pos_Bom_8=LayToaDoReturn(DinhBom8)
+                        pos_Bom_9=LayToaDoReturn(DinhBom9)
+                        pos_Bom_10=LayToaDoReturn(DinhBom10)
+                        pos_Bom_11=LayToaDoReturn(DinhBom11)
+                        pos_Bom_12=LayToaDoReturn(DinhBom12)
+                        pos_Bom_13=LayToaDoReturn(DinhBom13)
+                        pos_Bom_14=LayToaDoReturn(DinhBom14)
+
+                        for i in range(0,112):
+                            MaTranKe[DinhBom1][i]=0
+                            MaTranKe[DinhBom2][i]=0
+                            MaTranKe[DinhBom3][i]=0
+                            MaTranKe[DinhBom4][i]=0
+                            MaTranKe[DinhBom5][i]=0
+                            MaTranKe[DinhBom6][i]=0
+                            MaTranKe[DinhBom7][i]=0
+                            MaTranKe[DinhBom8][i]=0
+                            MaTranKe[DinhBom9][i]=0
+                            MaTranKe[DinhBom10][i]=0
+                            MaTranKe[DinhBom11][i]=0
+                            MaTranKe[DinhBom12][i]=0
+                            MaTranKe[DinhBom13][i]=0
+                            MaTranKe[DinhBom14][i]=0
+                        
+                            MaTranKe[i][DinhBom1]=0
+                            MaTranKe[i][DinhBom2]=0
+                            MaTranKe[i][DinhBom3]=0
+                            MaTranKe[i][DinhBom4]=0
+                            MaTranKe[i][DinhBom5]=0
+                            MaTranKe[i][DinhBom6]=0
+                            MaTranKe[i][DinhBom7]=0
+                            MaTranKe[i][DinhBom8]=0
+                            MaTranKe[i][DinhBom9]=0
+                            MaTranKe[i][DinhBom10]=0
+                            MaTranKe[i][DinhBom11]=0
+                            MaTranKe[i][DinhBom12]=0
+                            MaTranKe[i][DinhBom13]=0
+                            MaTranKe[i][DinhBom14]=0
+                for i in range(0,112):
+                    x,y=LayToaDoReturn(i)
+                    if((mouse_x>x and mouse_x<x+50) and (mouse_y > y and mouse_y < y+50)):
+                        if mouse_presses[0]:
+                            vt=0
+                            ListTick.clear()
+                            pos_MuiTen_x=x
+                            pos_MuiTen_y=y
+                            ViTriHienTai_x=pos_yasuo_x
+                            ViTriHienTai_y=pos_yasuo_y
+                            Goal=LayDinh(x,y)
+                            Start=LayDinh(ViTriHienTai_x,ViTriHienTai_y)
+                            starTime=time.time()
+                            # BFS() 
+                            BFSThongMinh()
+                            endTime=time.time()
+                            print("endTime = ",endTime,"starTime = ",starTime)
+                            print("endTime-starTime = ",endTime-starTime)
+                            break
+        elif LuaChon=="Mecung":
+            print("Mecung")
+        elif LuaChon=="BatDau":
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                mouse_presses = pygame.mouse.get_pressed()
+                if((mouse_x >= 288 and mouse_x <= 713) and (mouse_y >= 169 and mouse_y <=244)):
+                    if mouse_presses[0]:
+                        LuaChon="NganNhat"
+                if((mouse_x >= 288 and mouse_x <= 713) and (mouse_y >= 316 and mouse_y <=387)):
+                    if mouse_presses[0]:
+                        LuaChon="MeCung"
+            
     pygame.display.flip()
 pygame.quit()

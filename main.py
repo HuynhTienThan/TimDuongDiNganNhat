@@ -28,7 +28,7 @@ clock=pygame.time.Clock()
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 MAUDUONGLINE=(16,54,103)
-WidtLine=2
+WidtLine=4
 
 AnhNen=pygame.image.load('BackgroundSelection.PNG')
 AnhNen=pygame.transform.scale(AnhNen,(1000,600))
@@ -43,7 +43,12 @@ yasuo=pygame.image.load('yasuo.png')
 yasuo=pygame.transform.scale(yasuo,(50,50))
 pos_yasuo_x=100
 pos_yasuo_y=100
+yone=pygame.image.load('yone.png')
+yone=pygame.transform.scale(yone,(20,20))
+pos_yone_x=100
+pos_yone_y=50
 step=50
+step_yone=20
 
 pos_tick_x=10000
 pos_tick_y=10000
@@ -188,10 +193,13 @@ def BFSThongMinh():
     while(len(HangDoi)!=0):
         DinhCanXet=HangDoi.pop(0)
         LayDinhKe(DinhCanXet)
+        while len(TapDinhKe)==0:
+            a=pos_yasuo.pop()
+            LayDinhKe(LayDinh(a[0],a[1]))
         while(len(TapDinhKe)!=0):
             # print("Tập đỉnh kề: ",TapDinhKe)
-            for i in range(0,len(TapDinhKe)):
-                Dinh[TapDinhKe[i]][1]=True
+            # for i in range(0,len(TapDinhKe)):
+            #     Dinh[TapDinhKe[i]][1]=True
             for i in range(0,len(TapDinhKe)):
                 ToaDo=LayToaDoReturn(TapDinhKe[i])
                 ToaDoDich=LayToaDoReturn(Goal)
@@ -200,11 +208,9 @@ def BFSThongMinh():
                 # print("Khoảng Cách",KhoangCach)
             KCachNganNhat=KhoangCachNganNhat()
             # print(KCachNganNhat)
-            for i in range(0,len(TapDinhKe)):
-                if i==KCachNganNhat:
-                    DinhKe=TapDinhKe[i]
-                    TapDinhKe.clear()
-                    break
+            Dinh[TapDinhKe[KCachNganNhat]][1]=True
+            DinhKe=TapDinhKe[KCachNganNhat]
+            TapDinhKe.clear()
             # print(DinhKe)
             # DinhKe=TapDinhKe.pop(0)
             LayToaDo(DinhKe)
@@ -260,15 +266,15 @@ TaoDinh()
 # BFSThongMinh
 running=True
 while running:
-    clock.tick(600)
+    clock.tick(300)
     # screen.fill('white')
     
 
     mouse_x, mouse_y=pygame.mouse.get_pos()
     if(LuaChon=="NganNhat"):
         #Ve Duong line
-        screen.blit(BackgroundYS,(100,100))
-        # pygame.draw.rect(screen, (148,170,214), (100,100,700,400))
+        # screen.blit(BackgroundYS,(100,100))
+        pygame.draw.rect(screen, (148,170,214), (100,100,700,400))
         for i in range(100,501,50):
             if(i==100 or i==500):
                 pygame.draw.line(screen, (16,54,103), (100,i),(800,i),width=5) 
@@ -340,9 +346,13 @@ while running:
     elif LuaChon=="MeCung":
         screen.fill('white')
         pygame.draw.rect(screen, (148,170,214), (100,50,600,440))
+
+        screen.blit(yone,(pos_yone_x,pos_yone_y))
+
+
         for i in range(50,491,20):
             if(i==50 or i==490):
-                pygame.draw.line(screen, MAUDUONGLINE, (100,i),(700,i),width=WidtLine) 
+                pygame.draw.line(screen, MAUDUONGLINE, (100,i),(700,i),width=5) 
             if(i==70):
                 pygame.draw.line(screen, MAUDUONGLINE, (140,i),(220,i),width=WidtLine)    
                 pygame.draw.line(screen, MAUDUONGLINE, (280,i),(300,i),width=WidtLine)    
@@ -522,207 +532,207 @@ while running:
                 pygame.draw.line(screen, MAUDUONGLINE, (560,i),(580,i),width=WidtLine)  
                 pygame.draw.line(screen, MAUDUONGLINE, (620,i),(680,i),width=WidtLine)  
                 
-
+            pygame.draw.line(screen, (16,54,103), (100,i),(700,i),width=1)  
 
                 
 
               
-
-            # pygame.draw.line(screen, (16,54,103), (100,i),(700,i),width=2)    
+  
         for i in range(100,701,20):
             if(i==100 or i==700):
                 pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,490),width=5) 
-            # pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,510),width=1)   
             if i==120:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=WidtLine)  
             if i==140:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,450),width=2) 
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,450),width=WidtLine) 
             if i==160:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=WidtLine)  
             if i==180:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,410),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,410),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=WidtLine)  
             if i==200:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,470),width=WidtLine)  
             if i==220:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,270),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,350),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,270),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,350),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,490),width=WidtLine)  
             if i==240:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=WidtLine)  
             if i==260:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=WidtLine)  
             if i==280:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=WidtLine)  
             if i==300:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,450),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,450),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=WidtLine)  
             if i==320:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,170),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,270),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,410),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,170),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,270),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,410),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=WidtLine)  
             if i==340:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,410),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,410),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=WidtLine)  
             if i==360:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,350),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,350),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=WidtLine)  
             if i==380:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=WidtLine)  
             if i==400:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,350),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,350),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=WidtLine)  
             if i==420:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,270),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,430),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,270),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,430),width=WidtLine)  
             if i==440:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,410),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,390),(i,410),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=WidtLine)  
             if i==460:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=WidtLine)  
             if i==480:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=WidtLine)  
             if i==500:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,150),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=WidtLine)  
             if i==520:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,190),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,250),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=WidtLine)  
             if i==540:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,370),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,310),(i,370),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=WidtLine)  
             if i==560:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,170),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,310),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,170),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,310),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=WidtLine)  
             if i==580:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,290),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,290),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,470),width=WidtLine)  
             if i==600:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,270),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,270),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,290),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,470),(i,490),width=WidtLine)  
             if i==620:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,430),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,70),(i,90),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,290),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,430),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,450),(i,470),width=WidtLine)  
             if i==640:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,70),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,170),(i,210),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,250),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,450),width=WidtLine)  
             if i==660:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,290),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,350),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,470),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,110),(i,130),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,150),(i,170),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,230),(i,290),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,330),(i,350),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,370),(i,390),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,410),(i,470),width=WidtLine)  
             if i==680:
-                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,190),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,410),width=2)  
-                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=2)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,90),(i,110),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,130),(i,190),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,210),(i,230),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,270),(i,330),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,350),(i,410),width=WidtLine)  
+                pygame.draw.line(screen, MAUDUONGLINE, (i,430),(i,450),width=WidtLine)  
+
+            pygame.draw.line(screen, MAUDUONGLINE, (i,50),(i,490),width=1)   
 
 
                 
@@ -748,28 +758,28 @@ while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             running=False
-        if event.type == pygame.KEYDOWN: # nhấn 1 lần
-            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                if(pos_yasuo_x==100):
-                    break
-                else:
-                    pos_yasuo_x -= step
-            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                if(pos_yasuo_x==750):
-                    break
-                else:
-                    pos_yasuo_x += step
-            if event.key == pygame.K_UP or event.key == pygame.K_w:
-                if(pos_yasuo_y==100):
-                    break
-                else:
-                    pos_yasuo_y -= step
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                if(pos_yasuo_y==450):
-                    break
-                else:
-                    pos_yasuo_y += step
         if(LuaChon=="NganNhat"):
+            if event.type == pygame.KEYDOWN: # nhấn 1 lần
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    if(pos_yasuo_x==100):
+                        break
+                    else:
+                        pos_yasuo_x -= step
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    if(pos_yasuo_x==750):
+                        break
+                    else:
+                        pos_yasuo_x += step
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
+                    if(pos_yasuo_y==100):
+                        break
+                    else:
+                        pos_yasuo_y -= step
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                    if(pos_yasuo_y==450):
+                        break
+                    else:
+                        pos_yasuo_y += step
             if event.type==pygame.MOUSEBUTTONDOWN:
                 mouse_presses = pygame.mouse.get_pressed()
                 if((mouse_x >= 10 and mouse_x <= 30) and (mouse_y >= 10 and mouse_y <=30)):
@@ -782,13 +792,15 @@ while running:
                         pos_yasuo_x,pos_yasuo_y=Toa_do_Diem_xuat_phat_ngau_nhien
                         
                         TaoMaTran()
-                        DinhBom1=random.randint(0,111)
-                        DinhBom2=random.randint(0,111)
-                        DinhBom3=random.randint(0,111)
-                        DinhBom4=random.randint(0,111)
-                        DinhBom5=random.randint(0,111)
-                        DinhBom6=random.randint(0,111)
-                        DinhBom7=random.randint(0,111)
+                        DinhBom1=33
+                        DinhBom2=48
+                        DinhBom3=61
+                        DinhBom4=32
+                        DinhBom5=60
+                        # DinhBom4=random.randint(0,111)
+                        # DinhBom5=random.randint(0,111)
+                        DinhBom6=4
+                        DinhBom7=17
                         DinhBom8=random.randint(0,111)
                         DinhBom9=random.randint(0,111)
                         DinhBom10=random.randint(0,111)
@@ -858,11 +870,34 @@ while running:
                             # BFS() 
                             BFSThongMinh()
                             endTime=time.time()
-                            print("endTime = ",endTime,"starTime = ",starTime)
-                            print("endTime-starTime = ",endTime-starTime)
+                            print(pos_yasuo)
+                            HangDoi.clear()
+                            TapDinhKe.clear()
+                            # print("endTime = ",endTime,"starTime = ",starTime)
+                            # print("endTime-starTime = ",endTime-starTime)
                             break
-        elif LuaChon=="Mecung":
-            print("Mecung")
+        elif LuaChon=="MeCung":
+                if event.type == pygame.KEYDOWN: # nhấn 1 lần
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        if(pos_yone_x==100):
+                            break
+                        else:
+                            pos_yone_x -= step_yone
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        if(pos_yone_x==680):
+                            break
+                        else:
+                            pos_yone_x += step_yone
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        if(pos_yone_y==50):
+                            break
+                        else:
+                            pos_yone_y -= step_yone
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                        if(pos_yone_y==470):
+                            break
+                        else:
+                            pos_yone_y += step_yone
         elif LuaChon=="BatDau":
             if event.type==pygame.MOUSEBUTTONDOWN:
                 mouse_presses = pygame.mouse.get_pressed()
